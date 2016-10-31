@@ -29,10 +29,10 @@ function update(){
     sudo mv wp-cli.phar /usr/local/bin/wp
     fi
     echo "NOTE: Checking Wordpress installation"
-    VERSION=$(wp core version)
-    THEME=$(wp theme status)
-    PLUGINS=$(wp plugin status)
-    SITE=$(wp option get siteurl | cut -c 8-)
+    VERSION=$(wp core version --allow-root)
+    THEME=$(wp theme status --allow-root)
+    PLUGINS=$(wp plugin status --allow-root)
+    SITE=$(wp option get siteurl --allow-root | cut -c 8-)
     printf "$VERSION\n"
     printf "$PLUGINS\n"
     printf "$THEME\n";
@@ -41,9 +41,9 @@ function update(){
     read -p "Do you want to update Core, Themes and Plugins for this $SITE website? <y/N>" prompt
 if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]
 then
-wp core update &&
-wp theme update --all &&
-wp plugin update --all &&
+wp core update --allow-root &&
+wp theme update --all --allow-root &&
+wp plugin update --all --allow-root &&
 
     echo "done."
 fi
@@ -57,7 +57,7 @@ function repair(){
     chmod +x wp-cli.phar &&
     sudo mv wp-cli.phar /usr/local/bin/wp
 fi
-SITE=$(wp option get siteurl | cut -c 8-)
+SITE=$(wp option get siteurl --allow-root | cut -c 8-)
 printf "Repair tool will create core-(today-date).tar.gz archive at folder where your Wordpress installation is located,\n"
 read -p "Do you want to proceed and repair $SITE website? <y/N>" prompt
 if [[ $prompt == "y" || $prompt == "Y" || $prompt == "yes" || $prompt == "Yes" ]]
@@ -92,7 +92,7 @@ fi
 echo "Clearing tmp..."
 rm -f /tmp/malwarecheck.txt &&
 rm -f /tmp/malwarecheckemail.txt
-SITE=$(wp option get siteurl | cut -c 8-)
+SITE=$(wp option get siteurl --allow-root | cut -c 8-)
 EMAIL="$param2"
 HOSTNAME=$(hostname)
 PASSWORD=$(< /dev/urandom tr -dc _A-Z-a-z-0-9 | head -c${1:-32})
@@ -132,18 +132,18 @@ wordfence=$(pwd -P)"/wp-content/plugins/wordfence"
 echo "Checking if Wordfence plugin is installed"
     elif [ ! -d $wordfence ];then
 echo "Installing Wordfence plugin."
-wp plugin install wordfence &&
+wp plugin install wordfence --allow-root &&
 echo "Activating plugin."
-wp plugin activate wordfence
+wp plugin activate wordfence --allow-root
 fi
-wp user create temp$PASSWORD $EMAIL --role=administrator --user_pass=$PASSWORD &&
-echo -e "Please login to the Dashobard using following details: \n" >> /tmp/malwarecheckemail.txt
+wp user create temp$PASSWORD $EMAIL --role=administrator --user_pass=$PASSWORD --allow-root &&
+echo -e "Please login to the Dashobard of $SITE website with following details: \n" >> /tmp/malwarecheckemail.txt
 echo -e "username: temp$PASSWORD \n" >> /tmp/malwarecheckemail.txt
 echo -e "password: $PASSWORD \n" >> /tmp/malwarecheckemail.txt >> /tmp/malwarecheckemail.txt
 
 cat /tmp/malwarecheckemail.txt &&
 
-mail -s "URGENT: Malware detected! Wordfence installed,review site!" $EMAIL < /tmp/malwarecheckemail.txt
+mail -s "URGENT: Malware detected on $SITE! Wordfence installed,review site!" $EMAIL < /tmp/malwarecheckemail.txt
 echo "This is completed, good luck."
 }
 
