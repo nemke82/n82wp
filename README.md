@@ -21,6 +21,6 @@ Next type: bash n82wp.sh <BR>
 
 Help will be prompted, repeat with desired command. <BR>
 
-Notes:
-Type email address after scan command, if you wish to get alert on your email address.
-ex. bash n82wp.sh scan ne@nemanja.io
+Notes: <BR>
+Type email address after scan command, if you wish to get alert on your email address. <BR>
+ex. bash n82wp.sh scan ne@nemanja.io <BR>
