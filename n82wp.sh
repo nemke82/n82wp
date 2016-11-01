@@ -60,6 +60,7 @@ EOF
 function update(){
     if [[ "$param1" == "update" ]];then
     wpcli=$"/usr/local/bin/wp"
+fi
     if [ -f $wpcli ]
         then
 echo "WP CLI Exists."
@@ -85,7 +86,6 @@ then
 wp core update --allow-root &&
 wp theme update --all --allow-root &&
 wp plugin update --all --allow-root &&
-
     echo "done."
 fi
 }
@@ -93,6 +93,7 @@ fi
 function repair(){
     if [[ "$param1" == "repair" ]];then
     wpcli=$"/usr/local/bin/wp"
+fi
     if [ -f $wpcli ]
         then
 echo "WP CLI Exists."
@@ -127,16 +128,19 @@ fi
 }
 
 function scan(){
-wpcli=$"/usr/local/bin/wp"
+if [[ "$param1" == "scan" ]];then
+    wpcli=$"/usr/local/bin/wp"
+fi
     if [ -f $wpcli ]
-	then
+        then
 echo "WP CLI Exists."
     else
-echo "WP CLI Installed." &&	
+echo "WP CLI Installed." &&
     curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar &&
     chmod +x wp-cli.phar &&
     sudo mv wp-cli.phar /usr/local/bin/wp
 fi
+
 echo "Clearing tmp..."
 rm -f /tmp/malwarecheck.txt &&
 rm -f /tmp/malwarecheckemail.txt &&
