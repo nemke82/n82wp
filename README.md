@@ -19,4 +19,8 @@ wget -c https://raw.githubusercontent.com/nemke82/n82wp/master/n82wp.sh ; chmod 
 
 Next type: bash n82wp.sh <BR>
 
-Help will be prompted, repeat command with desired command.
+Help will be prompted, repeat with desired command. <BR>
+
+Notes:
+Type email address after scan command, if you wish to get alert on your email address.
+ex. bash n82wp.sh scan ne@nemanja.io
