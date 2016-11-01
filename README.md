@@ -19,6 +19,9 @@ wget -c https://raw.githubusercontent.com/nemke82/n82wp/master/n82wp.sh ; chmod 
 
 Next type: bash n82wp.sh <BR>
 
+Or, if you don´t wish to download script you can:
+curl -s https://raw.githubusercontent.com/nemke82/n82wp/master/n82wp.sh | bash /dev/stdin
+
 Help will be prompted, repeat with desired command. <BR>
 
 Notes: <BR>
